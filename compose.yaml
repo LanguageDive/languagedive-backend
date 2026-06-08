@@ -1,0 +1,36 @@
+services:
+  server:
+    build:
+      context: .
+      target: development
+    ports:
+      - 8080:8080
+      - 8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://db:5432/languagedive
+      - POSTGRES_USER=languagedive
+      - POSTGRES_PASSWORD=languagedive
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+  db:
+    image: postgres:18
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=languagedive
+      - POSTGRES_USER=languagedive
+      - POSTGRES_PASSWORD=languagedive
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "languagedive"]
+      interval: 10s
+      timeout: 5s
+volumes:
+  db-data:
