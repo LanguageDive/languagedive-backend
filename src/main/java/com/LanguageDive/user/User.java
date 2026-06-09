@@ -1,6 +1,7 @@
 package com.LanguageDive.user;
 
 import com.LanguageDive.course.Course;
+import com.LanguageDive.vocabulary.VocabularyEntry;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +34,8 @@ public class User {
     private Instant updatedAt;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> courses = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VocabularyEntry> vocabularyEntries = new ArrayList<>();
 
     @PrePersist
     void onCreate(){
@@ -53,6 +56,16 @@ public class User {
     public void removeCourse(Course course){
         courses.remove(course);
         course.setUser(null);
+    }
+
+    public void addVocabularyEntry(VocabularyEntry vocabularyEntry){
+        vocabularyEntries.add(vocabularyEntry);
+        vocabularyEntry.setUser(this);
+    }
+
+    public void removeVocabularyEntry(VocabularyEntry vocabularyEntry){
+        vocabularyEntries.remove(vocabularyEntry);
+        vocabularyEntry.setUser(null);
     }
 
 }
