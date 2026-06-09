@@ -1,5 +1,6 @@
 package com.LanguageDive.user;
 
+import com.LanguageDive.course.Course;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +31,8 @@ public class User {
     @NotNull
     private Instant createdAt;
     private Instant updatedAt;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Course> courses = new ArrayList<>();
 
     @PrePersist
     void onCreate(){
@@ -37,6 +42,17 @@ public class User {
     @PreUpdate
     void onUpdate(){
         updatedAt = Instant.now();
+    }
+
+    //helpers
+    public void addCourse(Course course){
+        courses.add(course);
+        course.setUser(this);
+    }
+
+    public void removeCourse(Course course){
+        courses.remove(course);
+        course.setUser(null);
     }
 
 }
