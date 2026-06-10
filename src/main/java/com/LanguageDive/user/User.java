@@ -1,6 +1,8 @@
 package com.LanguageDive.user;
 
 import com.LanguageDive.course.Course;
+import com.LanguageDive.progress.UserCourseProgress;
+import com.LanguageDive.progress.UserLessonProgress;
 import com.LanguageDive.reading.ReadingSession;
 import com.LanguageDive.vocabulary.VocabularyEntry;
 import jakarta.persistence.*;
@@ -39,6 +41,10 @@ public class User {
     private List<VocabularyEntry> vocabularyEntries = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReadingSession> readingSessions = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserLessonProgress> userLessonProgresses = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserCourseProgress> userCourseProgresses = new ArrayList<>();
 
     @PrePersist
     void onCreate(){
@@ -81,4 +87,21 @@ public class User {
         readingSession.setUser(null);
     }
 
+    public void addUserLessonProgress(UserLessonProgress ulp){
+        userLessonProgresses.add(ulp);
+        ulp.setUser(this);
+    }
+    public void removeUserLessonProgress(UserLessonProgress ulp){
+        userLessonProgresses.remove(ulp);
+        ulp.setUser(null);
+    }
+
+    public void addUserCourseProgress(UserCourseProgress ucp){
+        userCourseProgresses.add(ucp);
+        ucp.setUser(this);
+    }
+    public void removeUserCourseProgress(UserCourseProgress ucp){
+        userCourseProgresses.remove(ucp);
+        ucp.setUser(null);
+    }
 }
