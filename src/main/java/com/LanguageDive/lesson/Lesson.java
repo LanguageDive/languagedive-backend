@@ -1,6 +1,7 @@
 package com.LanguageDive.lesson;
 
 import com.LanguageDive.course.Course;
+import com.LanguageDive.progress.UserLessonProgress;
 import com.LanguageDive.reading.ReadingSession;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -36,6 +37,8 @@ public class Lesson {
     private Course course;
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReadingSession> readingSessions = new ArrayList<>();
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserLessonProgress> userLessonProgresses = new ArrayList<>();
 
     @PrePersist
     public void onCreate(){
@@ -57,5 +60,15 @@ public class Lesson {
     public void removeReadingSession(ReadingSession readingSession){
         readingSessions.remove(readingSession);
         readingSession.setLesson(null);
+    }
+
+    public void addUserLessonProgress(UserLessonProgress userLessonProgress){
+        userLessonProgresses.add(userLessonProgress);
+        userLessonProgress.setLesson(this);
+    }
+
+    public void removeUserLessonProgress(UserLessonProgress userLessonProgress){
+        userLessonProgresses.remove(userLessonProgress);
+        userLessonProgress.setLesson(null);
     }
 }
