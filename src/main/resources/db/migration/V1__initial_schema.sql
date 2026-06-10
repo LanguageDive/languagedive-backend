@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS user_course_progress (
     total_lessons INTEGER,
     progress_percentage INTEGER,
     last_accessed_at TIMESTAMPTZ,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE(course_id, user_id)
 );
 
 
@@ -53,7 +54,8 @@ CREATE TABLE IF NOT EXISTS user_lesson_progress (
     last_reading_position INTEGER,
     completed BOOLEAN,
     completed_at TIMESTAMPTZ,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE(lesson_id, user_id)
 );
 
 
