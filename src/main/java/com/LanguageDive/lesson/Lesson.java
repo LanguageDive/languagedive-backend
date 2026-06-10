@@ -1,6 +1,7 @@
 package com.LanguageDive.lesson;
 
 import com.LanguageDive.course.Course;
+import com.LanguageDive.reading.ReadingSession;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -31,6 +34,8 @@ public class Lesson {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReadingSession> readingSessions = new ArrayList<>();
 
     @PrePersist
     public void onCreate(){
@@ -42,4 +47,15 @@ public class Lesson {
         updatedAt = Instant.now();
     }
 
+    // helpers
+
+    public void addReadingSession(ReadingSession readingSession){
+        readingSessions.add(readingSession);
+        readingSession.setLesson(this);
+    }
+
+    public void removeReadingSession(ReadingSession readingSession){
+        readingSessions.remove(readingSession);
+        readingSession.setLesson(null);
+    }
 }
