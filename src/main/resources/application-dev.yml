@@ -11,3 +11,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
+
+jwt:
+  secret: 9FevB9Iru3Mw58UtX4CS5QzxytRCHVqYpJSmeYI61mz
