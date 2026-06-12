@@ -1,6 +1,0 @@
-server:
-  port:
-
-spring:
-  datasource:
-    url:

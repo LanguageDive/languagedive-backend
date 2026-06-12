@@ -26,9 +26,11 @@ public class User {
     private Long id;
     @NotBlank
     @Size(max = 255)
+    @Column(unique = true)
     private String username;
     @NotBlank
     @Size(max = 255)
+    @Column(unique = true)
     private String email;
     @NotBlank
     private String passwordHash;
