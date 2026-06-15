@@ -86,12 +86,16 @@ public class AuthService {
         );
     }
 
-    public AuthResponse refresh(@Valid RefreshTokenRotationRequest request) {
+    public AuthResponse refresh(@Valid RefreshTokenRequest request) {
         RefreshToken refreshToken = refreshTokenService.validateRefreshToken(request.refreshToken());
         User user = refreshToken.getUser();
 
         refreshTokenService.revokeRefreshToken(refreshToken);
         RefreshTokenIssuance refreshTokenIssuance = refreshTokenService.createRefreshToken(user);
         return buildAuthResponse(user, refreshTokenIssuance.rawToken());
+    }
+
+    public void logout(@Valid RefreshTokenRequest request) {
+        refreshTokenService.revokeRefreshTokenByRawToken(request.refreshToken());
     }
 }

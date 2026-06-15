@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.util.Base64;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -66,6 +67,14 @@ public class RefreshTokenService {
         }
 
         return refreshToken;
+    }
+
+    @Transactional
+    public void revokeRefreshTokenByRawToken(String rawRefreshToken) {
+        Optional<RefreshToken> refreshTokenOptional = refreshTokenRepository
+                .findByTokenHash(hashRefreshToken(rawRefreshToken));
+
+        refreshTokenOptional.ifPresent(this::revokeRefreshToken);
     }
 
     @Transactional

@@ -2,12 +2,13 @@ package com.LanguageDive.auth.controller;
 
 import com.LanguageDive.auth.dto.AuthResponse;
 import com.LanguageDive.auth.dto.LoginRequest;
-import com.LanguageDive.auth.dto.RefreshTokenRotationRequest;
+import com.LanguageDive.auth.dto.RefreshTokenRequest;
 import com.LanguageDive.auth.dto.RegisterRequest;
 import com.LanguageDive.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,13 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public AuthResponse refresh(@Valid @RequestBody RefreshTokenRotationRequest request) {
+    public AuthResponse refresh(@Valid @RequestBody RefreshTokenRequest request) {
         return authService.refresh(request);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@Valid @RequestBody RefreshTokenRequest request) {
+        authService.logout(request);
+        return ResponseEntity.noContent().build();
     }
 }
