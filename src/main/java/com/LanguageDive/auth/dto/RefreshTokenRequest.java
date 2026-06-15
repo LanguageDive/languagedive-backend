@@ -2,7 +2,7 @@ package com.LanguageDive.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record RefreshTokenRotationRequest(
+public record RefreshTokenRequest(
         @NotBlank
         String refreshToken
 ) {
