@@ -1,14 +1,12 @@
 package com.LanguageDive.auth.service;
 
-import com.LanguageDive.auth.dto.AuthResponse;
-import com.LanguageDive.auth.dto.AuthUserResponse;
-import com.LanguageDive.auth.dto.LoginRequest;
-import com.LanguageDive.auth.dto.RefreshTokenIssuance;
-import com.LanguageDive.auth.dto.RegisterRequest;
+import com.LanguageDive.auth.dto.*;
+import com.LanguageDive.auth.entity.RefreshToken;
 import com.LanguageDive.common.exception.InvalidCredentialsException;
 import com.LanguageDive.common.exception.UserAlreadyExistsException;
 import com.LanguageDive.user.User;
 import com.LanguageDive.user.UserRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -86,5 +84,14 @@ public class AuthService {
                 jwtService.getToken(user),
                 refreshToken
         );
+    }
+
+    public AuthResponse refresh(@Valid RefreshTokenRotationRequest request) {
+        RefreshToken refreshToken = refreshTokenService.validateRefreshToken(request.refreshToken());
+        User user = refreshToken.getUser();
+
+        refreshTokenService.revokeRefreshToken(refreshToken);
+        RefreshTokenIssuance refreshTokenIssuance = refreshTokenService.createRefreshToken(user);
+        return buildAuthResponse(user, refreshTokenIssuance.rawToken());
     }
 }
