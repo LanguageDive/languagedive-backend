@@ -1,6 +1,7 @@
 package com.LanguageDive.content;
 
 import com.LanguageDive.common.exception.ResourceNotFoundException;
+import com.LanguageDive.content.dto.CreateCourseRequest;
 import com.LanguageDive.content.dto.CourseDetailResponse;
 import com.LanguageDive.content.dto.CourseLessonSummaryResponse;
 import com.LanguageDive.content.dto.CourseListResponse;
@@ -10,10 +11,13 @@ import com.LanguageDive.progress.UserCourseProgress;
 import com.LanguageDive.progress.UserCourseProgressRepository;
 import com.LanguageDive.progress.UserLessonProgress;
 import com.LanguageDive.progress.UserLessonProgressRepository;
+import com.LanguageDive.user.User;
+import com.LanguageDive.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +31,7 @@ public class CourseService {
     private final LessonRepository lessonRepository;
     private final UserCourseProgressRepository userCourseProgressRepository;
     private final UserLessonProgressRepository userLessonProgressRepository;
+    private final UserService userService;
 
     @Transactional(readOnly = true)
     public List<CourseListResponse> getAllCoursesByUserId(Long userId) {
@@ -38,8 +43,7 @@ public class CourseService {
 
     @Transactional(readOnly = true)
     public CourseDetailResponse getCourseById(Long courseId, Long userId) {
-        Course course = courseRepository.findByIdAndUserId(courseId, userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+        Course course = getOwnedCourseOrThrow(courseId, userId);
 
         List<Lesson> lessons = lessonRepository.findAllByCourseIdOrderByLessonOrderAsc(course.getId());
         Map<Long, UserLessonProgress> progressByLessonId = getLessonProgressByLessonId(userId, course.getId());
@@ -56,6 +60,27 @@ public class CourseService {
                 getCourseProgress(userId, course.getId()),
                 lessonResponses
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Course getOwnedCourseOrThrow(Long courseId, Long userId) {
+        return courseRepository.findByIdAndUserId(courseId, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+    }
+
+    @Transactional
+    public CourseDetailResponse createCourse(Long userId, CreateCourseRequest request) {
+        User user = userService.findById(userId);
+
+        Course course = new Course();
+        course.setTitle(request.title());
+        course.setDescription(request.description());
+        course.setCoverUrl(request.coverUrl());
+        course.setSourceType(request.sourceType());
+        course.setUser(user);
+
+        Course savedCourse = courseRepository.save(course);
+        return CourseDetailResponse.from(savedCourse, null, Collections.emptyList());
     }
 
     private CourseProgressResponse getCourseProgress(Long userId, Long courseId) {
