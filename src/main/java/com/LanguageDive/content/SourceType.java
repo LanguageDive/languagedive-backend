@@ -1,4 +1,4 @@
-package com.LanguageDive.course;
+package com.LanguageDive.content;
 
 public enum SourceType {
     EPUB,

@@ -1,6 +1,6 @@
 package com.LanguageDive.progress;
 
-import com.LanguageDive.lesson.Lesson;
+import com.LanguageDive.content.Lesson;
 import com.LanguageDive.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
