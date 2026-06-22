@@ -1,6 +1,5 @@
-package com.LanguageDive.lesson;
+package com.LanguageDive.content;
 
-import com.LanguageDive.course.Course;
 import com.LanguageDive.progress.UserLessonProgress;
 import com.LanguageDive.reading.ReadingSession;
 import jakarta.persistence.*;

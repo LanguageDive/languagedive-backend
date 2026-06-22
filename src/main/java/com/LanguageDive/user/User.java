@@ -1,6 +1,6 @@
 package com.LanguageDive.user;
 
-import com.LanguageDive.course.Course;
+import com.LanguageDive.content.Course;
 import com.LanguageDive.progress.UserCourseProgress;
 import com.LanguageDive.progress.UserLessonProgress;
 import com.LanguageDive.reading.ReadingSession;
