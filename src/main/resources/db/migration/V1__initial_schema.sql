@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS user_lesson_progress (
     user_id BIGINT NOT NULL,
     lesson_id BIGINT NOT NULL,
     last_reading_position INTEGER,
-    completed BOOLEAN,
+    completed BOOLEAN NOT NULL DEFAULT FALSE,
     completed_at TIMESTAMPTZ,
     PRIMARY KEY(id),
     UNIQUE(lesson_id, user_id)
