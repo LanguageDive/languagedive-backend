@@ -39,6 +39,7 @@ public class VocabularyEntry {
     @PrePersist
     public void onCreate(){
         createdAt = Instant.now();
+        updatedAt = createdAt;
     }
 
     @PreUpdate
