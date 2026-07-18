@@ -26,9 +26,8 @@ public class VocabularyController {
     private final VocabularyEntryService vocabularyEntryService;
 
     @GetMapping()
-    public ResponseEntity<VocabularyEntriesResponse> getVocabularyByUserId(@AuthenticationPrincipal UserPrincipal userPrincipal){
-        VocabularyEntriesResponse response = vocabularyEntryService.getVocabularyByUserId(userPrincipal.getUserId());
-        return ResponseEntity.ok(response);
+    public VocabularyEntriesResponse getVocabularyByUserId(@AuthenticationPrincipal UserPrincipal userPrincipal){
+        return vocabularyEntryService.getVocabularyByUserId(userPrincipal.getUserId());
     }
 
     @PostMapping
@@ -45,17 +44,16 @@ public class VocabularyController {
     }
 
     @PatchMapping("/{vocabularyId}")
-    public ResponseEntity<VocabularyEntryResponse> updateVocabulary(
+    public VocabularyEntryResponse updateVocabulary(
             @PathVariable Long vocabularyId,
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody UpdateVocabularyEntryRequest request
     ) {
-        VocabularyEntryResponse response = vocabularyEntryService.updateVocabulary(
+        return vocabularyEntryService.updateVocabulary(
                 userPrincipal.getUserId(),
                 vocabularyId,
                 request
         );
-        return ResponseEntity.ok(response);
     }
 
 }
