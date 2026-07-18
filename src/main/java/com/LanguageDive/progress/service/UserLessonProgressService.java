@@ -1,11 +1,13 @@
-package com.LanguageDive.progress;
+package com.LanguageDive.progress.service;
 
-import com.LanguageDive.content.Lesson;
-import com.LanguageDive.content.LessonService;
+import com.LanguageDive.content.entity.Lesson;
+import com.LanguageDive.content.service.LessonService;
 import com.LanguageDive.progress.dto.UpdateLessonProgressRequest;
 import com.LanguageDive.progress.dto.UpdateLessonProgressResponse;
 import com.LanguageDive.auth.entity.User;
 import com.LanguageDive.auth.service.UserService;
+import com.LanguageDive.progress.entity.UserLessonProgress;
+import com.LanguageDive.progress.repository.UserLessonProgressRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

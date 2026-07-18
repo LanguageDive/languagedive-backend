@@ -1,6 +1,7 @@
-package com.LanguageDive.content;
+package com.LanguageDive.content.controller;
 
 import com.LanguageDive.auth.security.UserPrincipal;
+import com.LanguageDive.content.service.LessonService;
 import com.LanguageDive.content.dto.CreateLessonRequest;
 import com.LanguageDive.content.dto.LessonResponse;
 import jakarta.validation.Valid;

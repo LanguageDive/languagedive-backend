@@ -1,6 +1,6 @@
-package com.LanguageDive.progress;
+package com.LanguageDive.progress.entity;
 
-import com.LanguageDive.content.Lesson;
+import com.LanguageDive.content.entity.Lesson;
 import com.LanguageDive.auth.entity.User;
 import jakarta.persistence.*;
 import java.time.Instant;

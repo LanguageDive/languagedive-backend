@@ -1,4 +1,4 @@
-package com.LanguageDive.vocabulary;
+package com.LanguageDive.vocabulary.entity;
 
 import com.LanguageDive.auth.entity.User;
 import jakarta.persistence.*;

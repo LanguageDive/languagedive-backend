@@ -1,6 +1,6 @@
 package com.LanguageDive.vocabulary.dto;
 
-import com.LanguageDive.vocabulary.VocabularyStatus;
+import com.LanguageDive.vocabulary.entity.VocabularyStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

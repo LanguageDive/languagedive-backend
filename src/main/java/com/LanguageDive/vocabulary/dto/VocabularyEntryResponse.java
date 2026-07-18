@@ -1,7 +1,7 @@
 package com.LanguageDive.vocabulary.dto;
 
-import com.LanguageDive.vocabulary.VocabularyEntry;
-import com.LanguageDive.vocabulary.VocabularyStatus;
+import com.LanguageDive.vocabulary.entity.VocabularyEntry;
+import com.LanguageDive.vocabulary.entity.VocabularyStatus;
 
 import java.time.Instant;
 

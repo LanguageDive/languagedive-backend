@@ -1,7 +1,7 @@
-package com.LanguageDive.progress;
+package com.LanguageDive.progress.entity;
 
 import com.LanguageDive.auth.entity.User;
-import com.LanguageDive.content.Lesson;
+import com.LanguageDive.content.entity.Lesson;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

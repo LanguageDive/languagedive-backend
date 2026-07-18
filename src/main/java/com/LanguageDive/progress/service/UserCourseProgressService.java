@@ -1,4 +1,4 @@
-package com.LanguageDive.progress;
+package com.LanguageDive.progress.service;
 
 import org.springframework.stereotype.Service;
 

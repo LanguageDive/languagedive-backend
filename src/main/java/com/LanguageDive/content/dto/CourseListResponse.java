@@ -1,6 +1,6 @@
 package com.LanguageDive.content.dto;
 
-import com.LanguageDive.content.Course;
+import com.LanguageDive.content.entity.Course;
 
 import java.time.Instant;
 

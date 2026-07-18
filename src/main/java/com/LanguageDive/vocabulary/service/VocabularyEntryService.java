@@ -1,9 +1,12 @@
-package com.LanguageDive.vocabulary;
+package com.LanguageDive.vocabulary.service;
 
 import com.LanguageDive.common.exception.InvalidRequestException;
 import com.LanguageDive.common.exception.ResourceNotFoundException;
 import com.LanguageDive.auth.entity.User;
 import com.LanguageDive.auth.service.UserService;
+import com.LanguageDive.vocabulary.entity.VocabularyEntry;
+import com.LanguageDive.vocabulary.entity.VocabularyStatus;
+import com.LanguageDive.vocabulary.repository.VocabularyEntryRepository;
 import com.LanguageDive.vocabulary.dto.CreateVocabularyEntryRequest;
 import com.LanguageDive.vocabulary.dto.UpdateVocabularyEntryRequest;
 import com.LanguageDive.vocabulary.dto.VocabularyEntriesResponse;

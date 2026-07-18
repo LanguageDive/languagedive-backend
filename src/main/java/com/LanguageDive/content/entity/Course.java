@@ -1,6 +1,6 @@
-package com.LanguageDive.content;
+package com.LanguageDive.content.entity;
 
-import com.LanguageDive.progress.UserCourseProgress;
+import com.LanguageDive.progress.entity.UserCourseProgress;
 import com.LanguageDive.auth.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

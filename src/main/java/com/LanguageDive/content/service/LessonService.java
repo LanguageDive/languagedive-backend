@@ -1,11 +1,14 @@
-package com.LanguageDive.content;
+package com.LanguageDive.content.service;
 
 import com.LanguageDive.common.exception.ResourceNotFoundException;
+import com.LanguageDive.content.entity.Course;
+import com.LanguageDive.content.entity.Lesson;
+import com.LanguageDive.content.repository.LessonRepository;
 import com.LanguageDive.content.dto.CreateLessonRequest;
 import com.LanguageDive.content.dto.LessonProgressResponse;
 import com.LanguageDive.content.dto.LessonResponse;
-import com.LanguageDive.progress.UserLessonProgress;
-import com.LanguageDive.progress.UserLessonProgressRepository;
+import com.LanguageDive.progress.entity.UserLessonProgress;
+import com.LanguageDive.progress.repository.UserLessonProgressRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

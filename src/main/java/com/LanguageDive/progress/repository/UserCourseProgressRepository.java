@@ -1,5 +1,6 @@
-package com.LanguageDive.progress;
+package com.LanguageDive.progress.repository;
 
+import com.LanguageDive.progress.entity.UserCourseProgress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

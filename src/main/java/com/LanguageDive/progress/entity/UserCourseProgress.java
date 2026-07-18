@@ -1,6 +1,6 @@
-package com.LanguageDive.progress;
+package com.LanguageDive.progress.entity;
 
-import com.LanguageDive.content.Course;
+import com.LanguageDive.content.entity.Course;
 import com.LanguageDive.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
