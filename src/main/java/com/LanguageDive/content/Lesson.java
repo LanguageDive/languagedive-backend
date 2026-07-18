@@ -1,7 +1,7 @@
 package com.LanguageDive.content;
 
 import com.LanguageDive.progress.UserLessonProgress;
-import com.LanguageDive.reading.ReadingSession;
+import com.LanguageDive.progress.ReadingSession;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

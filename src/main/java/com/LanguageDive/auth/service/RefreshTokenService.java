@@ -4,7 +4,7 @@ import com.LanguageDive.auth.dto.RefreshTokenIssuance;
 import com.LanguageDive.auth.entity.RefreshToken;
 import com.LanguageDive.auth.repository.RefreshTokenRepository;
 import com.LanguageDive.common.exception.InvalidRefreshTokenException;
-import com.LanguageDive.user.User;
+import com.LanguageDive.auth.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

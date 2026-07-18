@@ -1,4 +1,4 @@
-package com.LanguageDive.reading;
+package com.LanguageDive.progress;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

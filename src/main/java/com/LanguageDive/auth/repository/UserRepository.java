@@ -1,4 +1,6 @@
-package com.LanguageDive.user;
+package com.LanguageDive.auth.repository;
+
+import com.LanguageDive.auth.entity.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

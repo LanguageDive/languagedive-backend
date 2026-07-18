@@ -1,7 +1,7 @@
 package com.LanguageDive.progress;
 
 import com.LanguageDive.content.Course;
-import com.LanguageDive.user.User;
+import com.LanguageDive.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.time.Instant;
 @Setter
 @Getter
 @Table(
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "lesson_id"})
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"})
 )
 public class UserCourseProgress {
     @Id
