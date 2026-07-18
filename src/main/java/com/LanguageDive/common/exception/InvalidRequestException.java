@@ -1,9 +1,7 @@
 package com.LanguageDive.common.exception;
 
-import org.springframework.http.HttpStatus;
-
-public class InvalidRequestException extends ApiException {
+public class InvalidRequestException extends RuntimeException {
     public InvalidRequestException(String message) {
-        super(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", message);
+        super(message);
     }
 }

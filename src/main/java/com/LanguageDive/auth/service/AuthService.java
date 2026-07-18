@@ -32,11 +32,11 @@ public class AuthService {
         String normalizedEmail = request.email().trim().toLowerCase(Locale.ROOT);
 
         if (userRepository.existsByUsernameIgnoreCase(normalizedUsername)) {
-            throw new UserAlreadyExistsException("USERNAME_ALREADY_EXISTS", "Username already exists");
+            throw new UserAlreadyExistsException("Username already exists");
         }
 
         if (userRepository.existsByEmailIgnoreCase(normalizedEmail)) {
-            throw new UserAlreadyExistsException("EMAIL_ALREADY_EXISTS", "Email already exists");
+            throw new UserAlreadyExistsException("Email already exists");
         }
 
         User user = new User();

@@ -5,7 +5,7 @@ import com.LanguageDive.progress.dto.UpdateLessonProgressRequest;
 import com.LanguageDive.progress.dto.UpdateLessonProgressResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +17,10 @@ public class ProgressController {
     private final UserLessonProgressService userLessonProgressService;
 
     @PutMapping("/lessons/{lessonId}")
-    public ResponseEntity<UpdateLessonProgressResponse> updateLessonProgressByUserIdAndLessonId(@PathVariable("lessonId") Long lessonId,
+    @ResponseStatus(HttpStatus.OK)
+    public UpdateLessonProgressResponse updateLessonProgressByUserIdAndLessonId(@PathVariable("lessonId") Long lessonId,
                                                                                                 @AuthenticationPrincipal UserPrincipal userPrincipal,
                                                                                                 @Valid  @RequestBody UpdateLessonProgressRequest updateLessonProgressRequest){
-        UpdateLessonProgressResponse response = userLessonProgressService.updateProgress(userPrincipal.getUserId(), lessonId,  updateLessonProgressRequest);
-        return ResponseEntity.ok(response);
+        return userLessonProgressService.updateProgress(userPrincipal.getUserId(), lessonId,  updateLessonProgressRequest);
     }
 }
