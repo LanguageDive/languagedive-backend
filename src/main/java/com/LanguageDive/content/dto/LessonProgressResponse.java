@@ -1,6 +1,6 @@
 package com.LanguageDive.content.dto;
 
-import com.LanguageDive.progress.UserLessonProgress;
+import com.LanguageDive.progress.entity.UserLessonProgress;
 
 import java.time.Instant;
 

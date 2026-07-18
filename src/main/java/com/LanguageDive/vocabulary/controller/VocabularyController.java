@@ -1,6 +1,7 @@
-package com.LanguageDive.vocabulary;
+package com.LanguageDive.vocabulary.controller;
 
 import com.LanguageDive.auth.security.UserPrincipal;
+import com.LanguageDive.vocabulary.service.VocabularyEntryService;
 import com.LanguageDive.vocabulary.dto.CreateVocabularyEntryRequest;
 import com.LanguageDive.vocabulary.dto.UpdateVocabularyEntryRequest;
 import com.LanguageDive.vocabulary.dto.VocabularyEntriesResponse;

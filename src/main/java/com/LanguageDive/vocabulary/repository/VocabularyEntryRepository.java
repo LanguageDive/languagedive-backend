@@ -1,5 +1,6 @@
-package com.LanguageDive.vocabulary;
+package com.LanguageDive.vocabulary.repository;
 
+import com.LanguageDive.vocabulary.entity.VocabularyEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

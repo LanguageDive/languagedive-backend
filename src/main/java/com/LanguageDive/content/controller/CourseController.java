@@ -1,6 +1,7 @@
-package com.LanguageDive.content;
+package com.LanguageDive.content.controller;
 
 import com.LanguageDive.auth.security.UserPrincipal;
+import com.LanguageDive.content.service.CourseService;
 import com.LanguageDive.content.dto.CreateCourseRequest;
 import com.LanguageDive.content.dto.CourseDetailResponse;
 import com.LanguageDive.content.dto.CourseListResponse;

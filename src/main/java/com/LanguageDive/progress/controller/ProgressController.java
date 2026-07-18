@@ -1,6 +1,7 @@
-package com.LanguageDive.progress;
+package com.LanguageDive.progress.controller;
 
 import com.LanguageDive.auth.security.UserPrincipal;
+import com.LanguageDive.progress.service.UserLessonProgressService;
 import com.LanguageDive.progress.dto.UpdateLessonProgressRequest;
 import com.LanguageDive.progress.dto.UpdateLessonProgressResponse;
 import jakarta.validation.Valid;

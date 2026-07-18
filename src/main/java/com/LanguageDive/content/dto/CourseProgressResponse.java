@@ -1,6 +1,6 @@
 package com.LanguageDive.content.dto;
 
-import com.LanguageDive.progress.UserCourseProgress;
+import com.LanguageDive.progress.entity.UserCourseProgress;
 
 public record CourseProgressResponse(
         Integer completedLessons,

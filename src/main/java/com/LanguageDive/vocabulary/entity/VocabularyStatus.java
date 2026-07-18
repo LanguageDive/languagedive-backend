@@ -1,4 +1,4 @@
-package com.LanguageDive.vocabulary;
+package com.LanguageDive.vocabulary.entity;
 
 public enum VocabularyStatus {
     NEW,
