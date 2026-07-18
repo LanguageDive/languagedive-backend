@@ -1,6 +1,6 @@
 package com.LanguageDive.auth.entity;
 
-import com.LanguageDive.user.User;
+import com.LanguageDive.auth.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

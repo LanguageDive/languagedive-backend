@@ -1,6 +1,6 @@
 package com.LanguageDive.auth.security;
 
-import com.LanguageDive.user.User;
+import com.LanguageDive.auth.entity.User;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

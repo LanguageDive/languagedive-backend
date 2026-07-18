@@ -1,9 +1,9 @@
-package com.LanguageDive.user;
+package com.LanguageDive.auth.entity;
 
 import com.LanguageDive.content.Course;
+import com.LanguageDive.progress.ReadingSession;
 import com.LanguageDive.progress.UserCourseProgress;
 import com.LanguageDive.progress.UserLessonProgress;
-import com.LanguageDive.reading.ReadingSession;
 import com.LanguageDive.vocabulary.VocabularyEntry;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

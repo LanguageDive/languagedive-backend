@@ -1,7 +1,7 @@
 package com.LanguageDive.auth.service;
 
 import com.LanguageDive.auth.security.UserPrincipal;
-import com.LanguageDive.user.UserRepository;
+import com.LanguageDive.auth.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

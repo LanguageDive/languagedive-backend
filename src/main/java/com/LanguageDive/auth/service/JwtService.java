@@ -1,7 +1,7 @@
 package com.LanguageDive.auth.service;
 
 import com.LanguageDive.auth.security.UserPrincipal;
-import com.LanguageDive.user.User;
+import com.LanguageDive.auth.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

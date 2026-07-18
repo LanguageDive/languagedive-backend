@@ -1,6 +1,6 @@
 package com.LanguageDive.vocabulary;
 
-import com.LanguageDive.user.User;
+import com.LanguageDive.auth.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
