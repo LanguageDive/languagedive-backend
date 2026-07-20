@@ -80,16 +80,15 @@ public class CourseController {
             description = """
                     Agrega un nuevo curso/libro al estante del usuario.
 
-                    El `sourceType` indica el formato del contenido fuente:
-                    - **EPUB**: para libros digitales en formato ePub
-                    - **TXT**: para texto plano
+                    **Próximamente:** este endpoint aceptará multipart/form-data con el archivo EPUB/TXT.
+                    El título, sourceType, cover y lecciones se extraerán automáticamente del archivo.
 
-                    Después de crear el curso, podés ir agregando lecciones via `POST /api/lessons`.
+                    **Hoy:** acepta título y descripción opcionales en JSON.
+                    Las lecciones se crean aparte via `POST /api/lessons`.
                     """
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Curso creado exitosamente"),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos (título vacío, sourceType inválido)")
+            @ApiResponse(responseCode = "201", description = "Curso creado exitosamente")
     })
     public CourseDetailResponse createCourse(
             @AuthenticationPrincipal UserPrincipal userPrincipal, @Valid @RequestBody CreateCourseRequest request) {

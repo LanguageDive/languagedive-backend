@@ -15,6 +15,7 @@ import com.LanguageDive.auth.entity.User;
 import com.LanguageDive.auth.service.UserService;
 import com.LanguageDive.content.entity.Course;
 import com.LanguageDive.content.entity.Lesson;
+import com.LanguageDive.content.entity.SourceType;
 import com.LanguageDive.content.repository.CourseRepository;
 import com.LanguageDive.content.repository.LessonRepository;
 import lombok.AllArgsConstructor;
@@ -79,8 +80,25 @@ public class CourseService {
         Course course = new Course();
         course.setTitle(request.title());
         course.setDescription(request.description());
-        course.setCoverUrl(request.coverUrl());
-        course.setSourceType(request.sourceType());
+        // coverUrl y sourceType se setean al procesar el archivo subido
+        course.setUser(user);
+
+        Course savedCourse = courseRepository.save(course);
+        return CourseDetailResponse.from(savedCourse, null, Collections.emptyList());
+    }
+
+    /// Versión interna para crear curso desde un archivo parseado (EPUB/TXT).
+    /// El llamado (controller o servicio de parsing) provee título, sourceType y opcionalmente coverUrl.
+    @Transactional
+    public CourseDetailResponse createCourseFromFile(Long userId, String title, String description,
+                                                      SourceType sourceType, String coverUrl) {
+        User user = userService.findById(userId);
+
+        Course course = new Course();
+        course.setTitle(title);
+        course.setDescription(description);
+        course.setSourceType(sourceType);
+        course.setCoverUrl(coverUrl);
         course.setUser(user);
 
         Course savedCourse = courseRepository.save(course);
