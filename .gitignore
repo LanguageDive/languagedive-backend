@@ -35,3 +35,6 @@ build/
 ## Codex
 /.codex
 /docs
+
+## Personal skills
+.atl/
