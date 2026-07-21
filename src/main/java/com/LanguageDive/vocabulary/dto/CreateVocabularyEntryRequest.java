@@ -11,8 +11,11 @@ public record CreateVocabularyEntryRequest(
         @Schema(description = "La palabra en el idioma que se está estudiando", example = "émerveiller")
         @NotBlank @Size(max = 255) String term,
 
-        @Schema(description = "Significado o traducción de la palabra", example = "maravillarse, asombrarse")
-        @NotBlank @Size(max = 255) String meaning,
+        @Schema(description = "Traducción de la palabra (múltiples separadas por ;)", example = "maravillarse;asombrarse")
+        @NotBlank @Size(max = 255) String translation,
+
+        @Schema(description = "Idioma de la traducción", example = "es")
+        String translationLang,
 
         @Schema(description = "Estado inicial de aprendizaje. Por lo general se usa NEW al agregar.", example = "NEW")
         @NotNull VocabularyStatus status

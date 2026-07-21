@@ -15,7 +15,10 @@ public record VocabularyEntryResponse(
         String term,
 
         @Schema(description = "Significado o traducción", example = "maravillarse, asombrarse")
-        String meaning,
+        String translation,
+
+        @Schema(description = "Idioma de la traducción", example = "es")
+        String translationLang,
 
         @Schema(description = "Estado de aprendizaje: NEW → LEVEL_2-5 → LEARNED, o IGNORED", example = "NEW")
         VocabularyStatus status,
@@ -36,7 +39,8 @@ public record VocabularyEntryResponse(
         return new VocabularyEntryResponse(
                 vocabularyEntry.getId(),
                 vocabularyEntry.getTerm(),
-                vocabularyEntry.getMeaning(),
+                vocabularyEntry.getTranslation(),
+                vocabularyEntry.getTranslationLang(),
                 vocabularyEntry.getStatus(),
                 vocabularyEntry.getTimesSeen() == null ? 0 : vocabularyEntry.getTimesSeen(),
                 vocabularyEntry.getLastSeenAt(),
