@@ -2,6 +2,7 @@ package com.LanguageDive.content.service;
 
 import com.LanguageDive.auth.entity.User;
 import com.LanguageDive.auth.service.UserService;
+import com.LanguageDive.common.exception.FileProcessingException;
 import com.LanguageDive.common.exception.ResourceNotFoundException;
 import com.LanguageDive.content.dto.CourseDetailResponse;
 import com.LanguageDive.content.dto.CourseLessonSummaryResponse;
@@ -93,9 +94,14 @@ public class CourseService {
     }
 
     @Transactional
-    public ImportCourseResponse importEpub(Long userId, MultipartFile file, String description) throws Exception {
+    public ImportCourseResponse importEpub(Long userId, MultipartFile file, String description) {
         EpubParser epubParser = new EpubParser();
-        EpubParser.Resultado resultado = epubParser.parsear(file.getInputStream());
+        EpubParser.Resultado resultado;
+        try {
+            resultado = epubParser.parsear(file.getInputStream());
+        } catch (Exception e) {
+            throw new FileProcessingException("No se pudo procesar el archivo: " + e.getMessage(), e);
+        }
 
         User user = userService.findById(userId);
 

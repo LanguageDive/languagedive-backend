@@ -103,7 +103,7 @@ public class CourseController {
             @Parameter(description = "Archivo EPUB a importar", content = @Content(mediaType = "application/octet-stream"))
             MultipartFile file,
             @RequestParam(value = "description", required = false) String description
-    ) throws Exception {
+    ) {
         return courseService.importEpub(userPrincipal.getUserId(), file, description);
     }
 
