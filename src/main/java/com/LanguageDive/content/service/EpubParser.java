@@ -1,5 +1,6 @@
 package com.LanguageDive.content.service;
 
+import com.LanguageDive.common.exception.FileProcessingException;
 import io.documentnode.epub4j.domain.Book;
 import io.documentnode.epub4j.domain.Resource;
 import io.documentnode.epub4j.domain.SpineReference;
@@ -19,14 +20,26 @@ public class EpubParser {
     public record Capitulo(String titulo, String contenido, int orden, List<Sentence> oraciones) {}
     public record Resultado(String titulo, String autor, String idioma, List<Capitulo> capitulos) {}
 
-    public Resultado parsear(InputStream epubInputStream) throws Exception {
+    public Resultado parsear(InputStream epubInputStream) {
         EpubReader reader = new EpubReader();
-        Book book = reader.readEpub(epubInputStream);
+        Book book;
+
+        try {
+            book = reader.readEpub(epubInputStream);
+        } catch (Exception e) {
+            throw new FileProcessingException("No se pudo leer el archivo EPUB: " + e.getMessage(), e);
+        }
 
         String tituloLibro = extraerTitulo(book);
         String autor = extraerAutor(book);
         String idioma = extraerIdioma(book);
-        List<Capitulo> capitulos = extraerCapitulos(book, idioma);
+
+        List<Capitulo> capitulos;
+        try {
+            capitulos = extraerCapitulos(book, idioma);
+        } catch (Exception e) {
+            throw new FileProcessingException("Error al extraer capítulos del EPUB: " + e.getMessage(), e);
+        }
 
         return new Resultado(tituloLibro, autor, idioma, capitulos);
     }
@@ -58,7 +71,7 @@ public class EpubParser {
         return (lang != null && !lang.isBlank()) ? lang : null;
     }
 
-    private List<Capitulo> extraerCapitulos(Book book, String idioma) {
+    private List<Capitulo> extraerCapitulos(Book book, String idioma) throws Exception {
         List<TOCReference> toc = book.getTableOfContents().getTocReferences();
         if (toc != null && !toc.isEmpty()) {
             return capitulosDesdeToc(toc, idioma);
@@ -66,7 +79,7 @@ public class EpubParser {
         return capitulosDesdeSpine(book, idioma);
     }
 
-    private List<Capitulo> capitulosDesdeToc(List<TOCReference> toc, String idioma) {
+    private List<Capitulo> capitulosDesdeToc(List<TOCReference> toc, String idioma) throws Exception {
         List<Capitulo> capitulos = new ArrayList<>();
         int orden = 0;
 
@@ -84,7 +97,7 @@ public class EpubParser {
         return capitulos;
     }
 
-    private void procesarRef(TOCReference ref, List<Capitulo> capitulos, int orden, String idioma) {
+    private void procesarRef(TOCReference ref, List<Capitulo> capitulos, int orden, String idioma) throws Exception {
         String titulo = ref.getTitle();
         String contenido = extraerTexto(ref.getResource());
         if (contenido != null && !contenido.isBlank()) {
@@ -93,7 +106,7 @@ public class EpubParser {
         }
     }
 
-    private List<Capitulo> capitulosDesdeSpine(Book book, String idioma) {
+    private List<Capitulo> capitulosDesdeSpine(Book book, String idioma) throws Exception {
         List<SpineReference> spine = book.getSpine().getSpineReferences();
         List<Capitulo> capitulos = new ArrayList<>();
 
@@ -110,16 +123,12 @@ public class EpubParser {
         return capitulos;
     }
 
-    private String extraerTexto(Resource resource) {
+    private String extraerTexto(Resource resource) throws Exception {
         if (resource == null) return null;
-        try {
-            byte[] data = resource.getData();
-            if (data == null) return null;
-            String html = new String(data, StandardCharsets.UTF_8);
-            return Jsoup.parse(html).body().wholeText().strip();
-        } catch (Exception e) {
-            return "";
-        }
+        byte[] data = resource.getData();
+        if (data == null) return null;
+        String html = new String(data, StandardCharsets.UTF_8);
+        return Jsoup.parse(html).body().wholeText().strip();
     }
 
     static List<Sentence> dividirEnOraciones(String text, String idioma) {

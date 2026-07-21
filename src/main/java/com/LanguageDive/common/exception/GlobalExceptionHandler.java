@@ -76,6 +76,16 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(FileProcessingException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ProblemDetail handleFileProcessingException(FileProcessingException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setTitle("File processing error");
+        problemDetail.setProperty("timestamp", Instant.now());
+        log.warn("File processing error: {}", ex.getMessage());
+        return problemDetail;
+    }
+
     @ExceptionHandler(UserAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ProblemDetail handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
