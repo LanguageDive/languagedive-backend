@@ -12,13 +12,29 @@ public record CourseProgressResponse(
         Integer totalLessons,
 
         @Schema(description = "Porcentaje de progreso (0-100)", example = "30")
-        Integer progressPercentage
+        Integer progressPercentage,
+
+        @Schema(description = "Total de oraciones en el curso", example = "450")
+        Integer totalSentences,
+
+        @Schema(description = "Oraciones leídas/completadas", example = "120")
+        Integer completedSentences,
+
+        @Schema(description = "Palabras conocidas (nivel > LEVEL_1)", example = "25")
+        Integer vocabularyKnown,
+
+        @Schema(description = "Palabras en aprendizaje", example = "8")
+        Integer vocabularyLearning
 ) {
     public static CourseProgressResponse from(UserCourseProgress progress) {
         return new CourseProgressResponse(
                 progress.getCompletedLessons(),
                 progress.getTotalLessons(),
-                progress.getProgressPercentage()
+                progress.getProgressPercentage(),
+                progress.getTotalSentences(),
+                progress.getCompletedSentences(),
+                progress.getVocabularyKnown(),
+                progress.getVocabularyLearning()
         );
     }
 }
