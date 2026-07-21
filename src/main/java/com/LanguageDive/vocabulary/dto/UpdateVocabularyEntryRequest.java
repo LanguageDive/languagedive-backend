@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Size;
 
 @Schema(description = "Datos para actualizar el significado o estado de aprendizaje de una palabra")
 public record UpdateVocabularyEntryRequest(
-        @Schema(description = "Nuevo significado (opcional, solo si se quiere corregir)", example = "sorprenderse, admirarse")
-        @Size(max = 255) String meaning,
+        @Schema(description = "Nueva traducción (opcional, solo si se quiere corregir)", example = "sorprenderse;admirarse")
+        @Size(max = 255) String translation,
 
         @Schema(description = "Nuevo estado de aprendizaje", example = "LEVEL_2")
         VocabularyStatus status

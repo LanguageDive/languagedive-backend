@@ -22,6 +22,10 @@ public class UserCourseProgress {
     private Integer totalLessons;
     private Integer progressPercentage;
     private Instant lastAccessedAt;
+    private Integer totalSentences;
+    private Integer completedSentences;
+    private Integer vocabularyKnown;
+    private Integer vocabularyLearning;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

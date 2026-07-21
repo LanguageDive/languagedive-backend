@@ -2,6 +2,7 @@ package com.LanguageDive.content.entity;
 
 import com.LanguageDive.progress.entity.UserLessonProgress;
 import com.LanguageDive.progress.entity.ReadingSession;
+import com.LanguageDive.content.entity.LessonSentence;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +39,9 @@ public class Lesson {
     private List<ReadingSession> readingSessions = new ArrayList<>();
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserLessonProgress> userLessonProgresses = new ArrayList<>();
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("sentenceIndex ASC")
+    private List<LessonSentence> sentences = new ArrayList<>();
 
     @PrePersist
     public void onCreate(){

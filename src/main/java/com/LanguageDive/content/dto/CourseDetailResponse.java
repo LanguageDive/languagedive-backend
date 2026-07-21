@@ -23,6 +23,9 @@ public record CourseDetailResponse(
         @Schema(description = "Formato del contenido: EPUB o TXT", example = "EPUB")
         String sourceType,
 
+        @Schema(description = "Idioma del curso detectado del EPUB", example = "en")
+        String language,
+
         @Schema(description = "Fecha de creación del curso", example = "2026-07-18T12:00:00Z")
         Instant createdAt,
 
@@ -43,6 +46,7 @@ public record CourseDetailResponse(
                 course.getDescription(),
                 course.getCoverUrl(),
                 course.getSourceType().name(),
+                course.getLanguage(),
                 course.getCreatedAt(),
                 progress,
                 lessons

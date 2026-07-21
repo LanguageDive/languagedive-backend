@@ -49,19 +49,19 @@ public class VocabularyEntryService {
         VocabularyEntry vocabularyEntry = vocabularyEntryRepository.findByIdAndUserId(vocabularyId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Vocabulary entry", "id", vocabularyId));
 
-        boolean hasMeaning = request.meaning() != null;
+        boolean hasTranslation = request.translation() != null;
         boolean hasStatus = request.status() != null;
 
-        if (!hasMeaning && !hasStatus) {
+        if (!hasTranslation && !hasStatus) {
             throw new InvalidRequestException("At least one updatable field must be provided");
         }
 
-        if (hasMeaning) {
-            String normalizedMeaning = request.meaning().trim();
-            if (normalizedMeaning.isEmpty()) {
-                throw new InvalidRequestException("Meaning must not be blank");
+        if (hasTranslation) {
+            String normalizedTranslation = request.translation().trim();
+            if (normalizedTranslation.isEmpty()) {
+                throw new InvalidRequestException("Translation must not be blank");
             }
-            vocabularyEntry.setMeaning(normalizedMeaning);
+            vocabularyEntry.setTranslation(normalizedTranslation);
         }
 
         if (hasStatus) {
@@ -73,7 +73,8 @@ public class VocabularyEntryService {
     }
 
     private VocabularyUpsertResponse updateExistingEntry(VocabularyEntry vocabularyEntry, CreateVocabularyEntryRequest request) {
-        vocabularyEntry.setMeaning(request.meaning().trim());
+        vocabularyEntry.setTranslation(request.translation().trim());
+        vocabularyEntry.setTranslationLang(request.translationLang());
         vocabularyEntry.setStatus(request.status());
 
         VocabularyEntry savedEntry = vocabularyEntryRepository.save(vocabularyEntry);
@@ -85,7 +86,8 @@ public class VocabularyEntryService {
 
         VocabularyEntry vocabularyEntry = new VocabularyEntry();
         vocabularyEntry.setTerm(normalizedTerm);
-        vocabularyEntry.setMeaning(request.meaning().trim());
+        vocabularyEntry.setTranslation(request.translation().trim());
+        vocabularyEntry.setTranslationLang(request.translationLang());
         vocabularyEntry.setStatus(request.status());
         vocabularyEntry.setTimesSeen(0);
         vocabularyEntry.setLastSeenAt(null);

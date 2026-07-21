@@ -31,6 +31,8 @@ public class Course
     @NotNull
     @Enumerated(EnumType.STRING)
     private SourceType sourceType;
+    @Size(max = 10)
+    private String language;
     @NotNull
     private Instant createdAt;
     @ManyToOne(fetch = FetchType.LAZY)

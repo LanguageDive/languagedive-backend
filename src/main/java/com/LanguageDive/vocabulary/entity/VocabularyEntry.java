@@ -23,7 +23,9 @@ public class VocabularyEntry {
     private String term;
     @NotBlank
     @Size(max = 255)
-    private String meaning;
+    private String translation;
+    @Size(max = 10)
+    private String translationLang;
     @NotNull
     @Enumerated(EnumType.STRING)
     private VocabularyStatus status;
