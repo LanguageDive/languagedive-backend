@@ -186,11 +186,6 @@ public class CourseService {
         );
     }
 
-    public EpubParser.Resultado obtenerMetadatosEpub(MultipartFile file) throws Exception {
-        EpubParser epubParser = new EpubParser();
-        return epubParser.parsear(file.getInputStream());
-    }
-
     @Transactional
     public void updateLessonProgress(Long userId, Long lessonId, Integer sentenceIndex) {
         UserLessonProgress progress = userLessonProgressRepository

@@ -7,7 +7,6 @@ import com.LanguageDive.content.dto.CreateCourseRequest;
 import com.LanguageDive.content.dto.ImportCourseResponse;
 import com.LanguageDive.content.dto.LessonDetailResponse;
 import com.LanguageDive.content.service.CourseService;
-import com.LanguageDive.content.service.EpubParser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -106,24 +105,6 @@ public class CourseController {
             @RequestParam(value = "description", required = false) String description
     ) throws Exception {
         return courseService.importEpub(userPrincipal.getUserId(), file, description);
-    }
-
-    @PostMapping(value = "/epub", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Probar parsing de EPUB (temporal)", description = """
-        Endpoint temporal para probar la extracción de metadatos, capítulos y oraciones.
-        No guarda nada — solo devuelve el resultado del parseo.
-        """)
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "EPUB parseado exitosamente"),
-            @ApiResponse(responseCode = "400", description = "Archivo inválido o corrupto")
-    })
-    public EpubParser.Resultado pruebaLeerEpub(
-            @RequestParam("file")
-            @Parameter(description = "Archivo EPUB a procesar", content = @Content(mediaType = "application/octet-stream"))
-            MultipartFile file
-    ) throws Exception {
-        return courseService.obtenerMetadatosEpub(file);
     }
 
     @GetMapping("/{courseId}/lessons/{lessonId}")
