@@ -3,28 +3,24 @@ package com.LanguageDive.content.controller;
 import com.LanguageDive.auth.security.UserPrincipal;
 import com.LanguageDive.content.dto.CourseDetailResponse;
 import com.LanguageDive.content.dto.CourseListResponse;
-import com.LanguageDive.content.dto.CreateCourseRequest;
 import com.LanguageDive.content.dto.ImportCourseResponse;
 import com.LanguageDive.content.dto.LessonDetailResponse;
 import com.LanguageDive.content.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -72,18 +68,6 @@ public class CourseController {
         return courseService.getCourseById(courseId, userPrincipal.getUserId());
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Crear un nuevo curso manualmente", description = """
-        Crea un curso vacío. Útil para pruebas o cuando se quiere agregar lecciones después.
-        Para importar un EPUB usar POST /api/courses/import.
-        """)
-    @ApiResponses({@ApiResponse(responseCode = "201", description = "Curso creado exitosamente")})
-    public CourseDetailResponse createCourse(
-            @AuthenticationPrincipal UserPrincipal userPrincipal, @Valid @RequestBody CreateCourseRequest request) {
-        return courseService.createCourse(userPrincipal.getUserId(), request);
-    }
-
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Importar un EPUB", description = """
@@ -100,10 +84,11 @@ public class CourseController {
     public ImportCourseResponse importEpub(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam("file")
-            @Parameter(description = "Archivo EPUB a importar", content = @Content(mediaType = "application/octet-stream"))
-            MultipartFile file,
-            @RequestParam(value = "description", required = false) String description
-    ) {
+                    @Parameter(
+                            description = "Archivo EPUB a importar",
+                            content = @Content(mediaType = "application/octet-stream"))
+                    MultipartFile file,
+            @RequestParam(value = "description", required = false) String description) {
         return courseService.importEpub(userPrincipal.getUserId(), file, description);
     }
 
@@ -126,24 +111,4 @@ public class CourseController {
             @RequestParam(defaultValue = "10") int pageSize) {
         return courseService.getLessonPage(lessonId, userPrincipal.getUserId(), page, pageSize);
     }
-
-    @PatchMapping("/{courseId}/lessons/{lessonId}/progress")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Actualizar progreso de lectura", description = """
-        Actualiza la posición actual del usuario en una lección.
-        El frontend envía el sentence_index donde se quedó.
-        """)
-    @ApiResponses({
-        @ApiResponse(responseCode = "204", description = "Progreso actualizado"),
-        @ApiResponse(responseCode = "404", description = "Lección no encontrada")
-    })
-    public void updateLessonProgress(
-            @PathVariable Long courseId,
-            @PathVariable Long lessonId,
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestBody UpdateProgressRequest request) {
-        courseService.updateLessonProgress(userPrincipal.getUserId(), lessonId, request.sentenceIndex());
-    }
-
-    public record UpdateProgressRequest(Integer sentenceIndex) {}
 }

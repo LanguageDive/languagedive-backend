@@ -10,8 +10,8 @@ public record UpdateLessonProgressResponse(
         @Schema(description = "ID de la lección", example = "1")
         Long lessonId,
 
-        @Schema(description = "Última posición guardada (0-100)", example = "75")
-        int lastReadingPosition,
+        @Schema(description = "Índice de la última oración leída", example = "42")
+        int sentenceIndex,
 
         @Schema(description = "Si la lección está completada", example = "false")
         Boolean completed,
