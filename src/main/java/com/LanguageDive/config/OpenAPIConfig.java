@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
                 license = @License(name = "MIT")
         ),
         servers = {
-                @Server(url = "http://localhost:8080", description = "Desarrollo local")
+                @Server(url = "${app.swagger-server-url:http://localhost:8080}", description = "Servidor")
         }
 )
 @SecurityScheme(
