@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:17-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${PROD_DB_NAME}
+      POSTGRES_USER: ${PROD_DB_USER}
+      POSTGRES_PASSWORD: ${PROD_DB_PASS}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+    # NO ports — solo accesible desde la red interna de Docker
+    # api se conecta via "db:5432"
+
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:8082:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${PROD_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${PROD_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${PROD_DB_PASS}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
