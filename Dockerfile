@@ -37,7 +37,7 @@ RUN cp -r /build/target/extracted/spring-boot-loader/. ./
 RUN cp -r /build/target/extracted/snapshot-dependencies/. ./
 RUN cp -r /build/target/extracted/application/. ./
 ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
-CMD [ "java", "-Dspring.profiles.active=dev", "org.springframework.boot.loader.launch.JarLauncher" ]
+CMD [ "java", "org.springframework.boot.loader.launch.JarLauncher" ]
 
 FROM eclipse-temurin:25-jre-jammy AS final
 
@@ -62,5 +62,5 @@ COPY --from=extract build/target/extracted/application/ ./
 
 EXPOSE 8080
 
-ENTRYPOINT [ "java", "-Dspring.profiles.active=dev", "org.springframework.boot.loader.launch.JarLauncher"]
+ENTRYPOINT [ "java", "org.springframework.boot.loader.launch.JarLauncher"]
 
