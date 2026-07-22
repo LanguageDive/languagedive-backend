@@ -1,11 +1,9 @@
 package com.LanguageDive.content.dto;
 
-import com.LanguageDive.content.service.CourseService.VocabularyEntryResponseMap;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
-import java.util.Map;
 
-@Schema(description = "Contenido de una lección con oraciones paginadas y vocabulario del usuario")
+@Schema(description = "Contenido de una lección con oraciones paginadas")
 public record LessonDetailResponse(
         @Schema(description = "ID de la lección", example = "1")
         long lessonId,
@@ -26,8 +24,5 @@ public record LessonDetailResponse(
         int totalSentences,
 
         @Schema(description = "Total de páginas", example = "5")
-        int totalPages,
-
-        @Schema(description = "Vocabulario del usuario (mapa de palabra → entry)")
-        Map<String, VocabularyEntryResponseMap> vocabulary
+        int totalPages
 ) {}
