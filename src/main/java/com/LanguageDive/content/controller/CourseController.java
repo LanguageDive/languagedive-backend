@@ -94,8 +94,10 @@ public class CourseController {
 
     @GetMapping("/{courseId}/lessons/{lessonId}")
     @Operation(summary = "Obtener lección con oraciones paginadas", description = """
-        Devuelve las oraciones de una lección paginadas, junto con el
-        vocabulario del usuario para colorear las palabras.
+        Devuelve las oraciones de una lección paginadas.
+
+        El vocabulario del usuario se obtiene por separado mediante
+        GET /api/vocabulary para colorear las palabras conocidas.
 
         Parámetros opcionales: page (default 0), pageSize (default 10).
         """)
