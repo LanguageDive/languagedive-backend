@@ -1,5 +1,5 @@
 app:
-  swagger-server-url: https://bryanrodriguez.tech:8082
+  swagger-server-url: https://languagedive.bryanrodriguez.tech
 
 spring:
   threads:
