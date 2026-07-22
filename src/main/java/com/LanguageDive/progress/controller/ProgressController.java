@@ -31,11 +31,12 @@ public class ProgressController {
             description = """
                     Actualiza el progreso del usuario en una lección específica.
 
-                    El `lastReadingPosition` indica hasta dónde leyó el usuario (0-100% del scroll).
+                    El `sentenceIndex` indica el índice de la oración donde se quedó el usuario
+                    (basado en lesson_sentence.sentence_index).
                     El flag `completed` indica si el usuario terminó la lección.
 
                     El frontend llama a este endpoint automáticamente mientras el usuario lee:
-                    - Cada 2 segundos después de dejar de scrollear
+                    - Cada 2 segundos después de dejar de interactuar
                     - Al salir de la página
                     - Cuando el usuario llega al final de la lección (completed = true)
                     """

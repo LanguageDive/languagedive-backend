@@ -7,8 +7,8 @@ import java.time.Instant;
 
 @Schema(description = "Progreso de lectura del usuario en una lección específica")
 public record LessonProgressResponse(
-        @Schema(description = "Última posición de lectura (porcentaje 0-100)", example = "75")
-        Integer lastReadingPosition,
+        @Schema(description = "Índice de la última oración leída (basado en lesson_sentence.sentence_index)", example = "42")
+        Integer sentenceIndex,
 
         @Schema(description = "Indica si el usuario completó la lección", example = "false")
         Boolean completed,

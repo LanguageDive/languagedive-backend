@@ -37,7 +37,7 @@ public class UserLessonProgressService {
         }
 
         UserLessonProgress userLessonEntity = userLessonProgress.get();
-        userLessonEntity.setLastReadingPosition(dto.lastReadingPosition());
+        userLessonEntity.setLastReadingPosition(dto.sentenceIndex());
         if(dto.completed()){
             userLessonEntity.setCompleted(true);
             userLessonEntity.setCompletedAt(Instant.now());
