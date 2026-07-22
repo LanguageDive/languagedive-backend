@@ -134,7 +134,8 @@ public class CourseService {
 
     @Transactional(readOnly = true)
     public LessonDetailResponse getLessonPage(Long lessonId, Long userId, int page, int pageSize) {
-        Lesson lesson = lessonRepository.findById(lessonId)
+        Lesson lesson = lessonRepository
+                .findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
 
         long totalSentences = lessonSentenceRepository.countByLessonId(lessonId);
@@ -150,25 +151,7 @@ public class CourseService {
                 .toList();
 
         return new LessonDetailResponse(
-                lesson.getId(), lesson.getTitle(), sentenceResponses, page, pageSize,
-                (int) totalSentences, totalPages
-        );
-    }
-
-    @Transactional
-    public void updateLessonProgress(Long userId, Long lessonId, Integer sentenceIndex) {
-        UserLessonProgress progress = userLessonProgressRepository
-                .findByUserIdAndLessonId(userId, lessonId)
-                .orElseGet(() -> {
-                    UserLessonProgress newProgress = new UserLessonProgress();
-                    newProgress.setUser(userService.findById(userId));
-                    newProgress.setLesson(lessonRepository.getReferenceById(lessonId));
-                    newProgress.setCompleted(false);
-                    return newProgress;
-                });
-
-        progress.setLastReadingPosition(sentenceIndex);
-        userLessonProgressRepository.save(progress);
+                lesson.getId(), lesson.getTitle(), sentenceResponses, page, pageSize, (int) totalSentences, totalPages);
     }
 
     private CourseProgressResponse getCourseProgress(Long userId, Long courseId) {
