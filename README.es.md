@@ -1,148 +1,112 @@
-# LanguageDive Backend
+# LanguageDive
 
-API backend para una plataforma de aprendizaje de idiomas. Gestiona cursos, lecciones, sesiones de lectura, vocabulario personal y seguimiento de progreso del usuario.
+**Aprende idiomas leyendo lo que te gusta.**
 
-Construido con Spring Boot 4 y PostgreSQL.
+LanguageDive es una plataforma de lectura inmersiva que convierte libros reales (EPUB) en una experiencia de aprendizaje de idiomas. Olvídate de los ejercicios repetitivos y las listas de vocabulario fuera de contexto: acá leés historias, cuentos, novelas — lo que quieras — mientras construís tu vocabulario de forma orgánica.
 
-## Funcionalidades
+---
 
-- **Autenticación y Autorización**: Registro, inicio de sesión, tokens JWT, rotación de refresh tokens, cierre de sesión
-- **Cursos y Lecciones**: Crear y gestionar cursos de idiomas con lecciones ordenadas y conteo de palabras
-- **Seguimiento de Progreso**: Registrar finalización de lecciones, posición de lectura y progreso general del curso
-- **Vocabulario**: Listas de vocabulario personal con seguimiento de estado (aprendiendo, repasando, dominado)
-- **Sesiones de Lectura**: Seguimiento de sesiones de lectura por lección basado en tiempo
+## El problema
 
-## Stack Tecnológico
+Aprender un idioma nuevo requiere **exposición constante a contenido real**. Pero los métodos tradicionales te dan:
+
+- Libros de texto con diálogos artificiales
+- Listas de vocabulario aisladas que olvidás a los tres días
+- Ejercicios de gramática que no se parecen a una conversación real
+
+Leer contenido auténtico es la mejor forma de adquirir un idioma, pero es frustrante tener que parar cada dos palabras para buscar su significado, perder el hilo, y no tener un sistema para recordar lo que aprendiste.
+
+## La solución
+
+LanguageDive te deja **importar cualquier libro en EPUB** y lo convierte en una experiencia de lectura diseñada para aprender:
+
+| Problema | Solución LanguageDive |
+|---|---|
+| No entendés una palabra | La tocás y la guardás al instante en tu grimorio personal |
+| Te olvidás lo que aprendiste | El grimorio registra tu progreso: nueva → aprendida → dominada |
+| Perdés el hilo de la lectura | El progreso se guarda automáticamente por oración |
+| Los libros de texto son aburridos | Leé lo que te gusta, en el idioma que querés aprender |
+
+No es una app de ejercicios. Es un **lector que te ayuda a aprender**.
+
+## Cómo funciona
+
+```
+1. Subís un EPUB → 2. Se divide en oraciones → 3. Leés oración por oración
+                        ↓                              ↓
+                 Se detecta el idioma         Tocás palabras → se guardan
+                 automáticamente              en tu grimorio personal
+```
+
+- **Importación automática**: Subís un EPUB y el sistema lo parsea, detecta el idioma, y lo organiza en lecciones (una por capítulo) con oraciones individuales.
+- **Lectura paginada**: Las oraciones se muestran paginadas. El frontend elige cuántas oraciones ver por página.
+- **Vocabulario contextual**: Cuando encontrás una palabra que no conocés, la guardás con su traducción. Después podés repasarla desde tu grimorio.
+- **Progreso persistente**: Cada lección guarda en qué oración te quedaste. Volvé cuando quieras y seguí desde ahí.
+- **Traducción flexible**: Una palabra puede tener múltiples significados, separados por punto y coma. Ej: "marvel → maravillarse, asombrarse"
+
+## El stack técnico
 
 | Capa | Tecnología |
-|------|-----------|
+|---|---|
 | Lenguaje | Java 25 |
-| Framework | Spring Boot 4.0.6 |
-| Build | Maven Wrapper (`./mvnw`) |
-| Base de datos | PostgreSQL 18 |
+| Framework | Spring Boot 4.0 |
+| Build | Maven Wrapper |
+| Base de datos | PostgreSQL 17 |
 | Migraciones | Flyway |
-| Autenticación | Spring Security + JWT (jjwt 0.13.0) + Refresh Tokens |
-| DTOs | Java Records |
-| Contenedor | Docker Compose |
+| Autenticación | Spring Security + JWT + Refresh Tokens |
+| Concurrencia | Virtual Threads (Project Loom) |
+| Documentación API | SpringDoc OpenAPI (Swagger UI) |
+| Contenedor | Docker + Docker Compose |
+| Proxy | Caddy (TLS automático) |
 
-## Cómo Empezar
+## Primeros pasos
 
 ### Requisitos
 
 - Docker y Docker Compose
-- Java 25 (para desarrollo sin Docker)
+- Java 25 (para desarrollo local)
 
-### Ejecutar con Docker (recomendado)
+### Con Docker (recomendado)
 
 ```bash
 docker compose up
 ```
 
-Esto inicia PostgreSQL 18 y el servidor API con live-reload en el puerto `8080`. Puerto de debug disponible en `8000`.
+La API arranca en `http://localhost:8080`. La documentación Swagger en `/swagger-ui/index.html`.
 
-### Ejecutar localmente
+### Desarrollo local
 
 ```bash
-# Iniciar PostgreSQL primero, luego:
-export POSTGRES_URL=jdbc:postgresql://localhost:5432/languagedive
-export POSTGRES_USER=languagedive
-export POSTGRES_PASSWORD=languagedive
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-### Compilar
+### Producción
 
 ```bash
-./mvnw compile       # Solo compilar
-./mvnw package       # Generar JAR ejecutable
+docker compose -f docker-compose.prod.yml up -d --build
 ```
 
-## Resumen de la API
+Requiere un archivo `.env` con las variables de entorno de producción (DB, JWT secret, etc.).
 
-Todos los endpoints usan el prefijo `/api`. Rutas públicas: `/api/auth/**`. El resto requiere autenticación mediante token JWT (Bearer).
+## API
 
-### Autenticación
+La documentación interactiva está disponible en `/swagger-ui/index.html` cuando el servidor está corriendo.
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/api/auth/register` | Registrar un nuevo usuario |
-| POST | `/api/auth/login` | Iniciar sesión con usuario/email + contraseña |
-| POST | `/api/auth/refresh` | Rotar refresh token |
-| POST | `/api/auth/logout` | Revocar refresh token |
+Endpoints principales:
 
-### Cursos
+- `POST /api/auth/register` — Crear cuenta de lector
+- `POST /api/auth/login` — Iniciar sesión
+- `GET /api/courses` — Ver tu estante de libros
+- `POST /api/courses/import` — Importar un EPUB
+- `GET /api/courses/{id}/lessons/{id}` — Leer una lección (oraciones paginadas)
+- `PUT /api/progress/lessons/{id}` — Guardar progreso de lectura
+- `GET /api/vocabulary` — Consultar tu grimorio personal
+- `POST /api/vocabulary` — Guardar una palabra
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/courses` | Listar cursos del usuario |
-| GET | `/api/courses/{id}` | Obtener detalle del curso con lecciones |
-| POST | `/api/courses` | Crear un nuevo curso |
+## Estado del proyecto
 
-### Lecciones
+Activo en desarrollo. Actualmente soporta importación de EPUB, lectura oración por oración, vocabulario contextual con estados de aprendizaje, y seguimiento de progreso.
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/lessons/{id}` | Obtener detalle de la lección |
-| POST | `/api/lessons` | Crear una lección en un curso |
+## Licencia
 
-### Progreso
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| PUT | `/api/progress/lessons/{lessonId}` | Actualizar posición de lectura y finalización |
-
-### Vocabulario
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/vocabulary` | Listar entradas de vocabulario del usuario |
-| POST | `/api/vocabulary` | Crear o actualizar una entrada (upsert) |
-| PATCH | `/api/vocabulary/{id}` | Actualizar una entrada específica |
-
-Nota: POST `/api/vocabulary` retorna `201 Created` para entradas nuevas y `200 OK` para actualizaciones.
-
-## Estructura del Proyecto
-
-```
-src/main/java/com/LanguageDive/
-├── auth/               # Autenticación y gestión de usuarios
-│   ├── controller/
-│   ├── dto/
-│   ├── entity/         # User, RefreshToken
-│   ├── repository/
-│   ├── security/       # Filtro JWT, UserPrincipal
-│   └── service/
-├── content/            # Cursos y lecciones
-│   ├── dto/
-│   └── ...
-├── progress/           # Progreso de lecciones/cursos, sesiones de lectura
-│   ├── dto/
-│   └── ...
-├── vocabulary/         # Vocabulario personal
-│   ├── dto/
-│   └── ...
-├── config/             # Configuración de seguridad
-└── common/
-    └── exception/      # Manejo global de errores (ProblemDetail)
-```
-
-## Manejo de Errores
-
-Todos los errores siguen el estándar [RFC 7807 Problem Details](https://datatracker.ietf.org/doc/html/rfc7807), retornando respuestas JSON estructuradas.
-
-## Base de Datos
-
-- Schema gestionado por migraciones Flyway (`src/main/resources/db/migration/`)
-- Tablas: `users`, `course`, `lesson`, `user_course_progress`, `user_lesson_progress`, `vocabulary_entry`, `reading_session`, `refresh_token`
-
-## Convención de Commits
-
-Este proyecto usa commits convencionales:
-
-```
-feat: nueva funcionalidad
-fix: corrección de bug
-refactor: reestructuración de código
-chore: herramientas, dependencias, configuración
-docs: documentación
-```
+MIT
